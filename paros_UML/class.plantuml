@@ -3,170 +3,170 @@
     log :Log
     cmdLine : Commandline
     
-	public static void main(String[] args) 
-	private void init(String[] args)
-	private void run()
-	private void runCommandLine()
-	private void runGUI() 
-	private void showLicense()
-    private void checkUpdate()
+	+ static void main(String[] args) 
+	- void init(String[] args)
+	- void run()
+	- void runCommandLine()
+	- void runGUI() 
+	- void showLicense()
+    - void checkUpdate()
     }
 
 class Constant {
     String PROGRAM_NAME    
     String PROGRAM_VERSION 
     long VERSION_TAG
-    public static String getEyeCatcher()
-    public static void setEyeCatcher(String eyeCatcher)
-    public static void setSP(boolean isSP)
-    public static boolean isSP()
-    public Constant()
-    public static Constant getInstance()
-    public static boolean isWindows()
-    public static boolean isLinux()
+    + static String getEyeCatcher()
+    + static void setEyeCatcher(String eyeCatcher)
+    + static void setSP(boolean isSP)
+    + static boolean isSP()
+    + Constant()
+    + static Constant getInstance()
+    + static boolean isWindows()
+    + static boolean isLinux()
 }
 
 Paros ..> Constant : use
 abstract class FileXML {
-    protected Document doc 
-	protected DocumentBuilder docBuilder 
-	protected DocumentBuilderFactory docBuilderFactory 
-    public FileXML(String rootElementName)
-    public Document getDocument()
+    # Document doc 
+	# DocumentBuilder docBuilder 
+	# DocumentBuilderFactory docBuilderFactory 
+    + FileXML(String rootElementName)
+    + Document getDocument()
    
 }
 class Model {
-    private Session session 
-	private OptionsParam optionsParam 
-	private Database db 
-    public void init()
-    public Database getDb()
-    public void moveSessionDb(String destFile)
+    - Session session 
+	- OptionsParam optionsParam 
+	- Database db 
+    + void init()
+    + Database getDb()
+    + void moveSessionDb(String destFile)
 
 }
 class View {
-    private MainFrame mainFrame 
-	private HttpPanel requestPanel 
-	private HttpPanel responsePanel 
-    public void postInit()
-    public int showConfirmDialog(String msg)
-    public int showYesNoCancelDialog(String msg)
+    - MainFrame mainFrame 
+	- HttpPanel requestPanel 
+	- HttpPanel responsePanel 
+    + void postInit()
+    + int showConfirmDialog(String msg)
+    + int showYesNoCancelDialog(String msg)
 
     }
 class Control {
-    private static Log log 
-    private Proxy proxy 
-    private MenuFileControl menuFileControl 
-    public Proxy getProxy()
-    public MenuFileControl getMenuFileControl()
-    public MenuToolsControl getMenuToolsControl()
+    - static Log log 
+    - Proxy proxy 
+    - MenuFileControl menuFileControl 
+    + Proxy getProxy()
+    + MenuFileControl getMenuFileControl()
+    + MenuToolsControl getMenuToolsControl()
 }
 class session {
-    private Model model 
-	private String fileName 
-	private String sessionDesc 
-    public void discard()
-    public String getSessionDesc()
-    public long getSessionId()
-    public Session(Model model)
+    - Model model 
+	- String fileName 
+	- String sessionDesc 
+    + void discard()
+    + String getSessionDesc()
+    + long getSessionId()
+    + Session(Model model)
 }
 class OptionsParam {
-    private ProxyParam proxyParam 
-	private ConnectionParam connectionParam 
-	private OptionsParamView viewParam 
-    public ProxyParam getProxyParam()
-    public void setProxyParam(ProxyParam proxyParam)
-    public OptionsParamView getViewParam()
+    - ProxyParam proxyParam 
+	- ConnectionParam connectionParam 
+	- OptionsParamView viewParam 
+    + ProxyParam getProxyParam()
+    + void setProxyParam(ProxyParam proxyParam)
+    + OptionsParamView getViewParam()
 }
 class Database {
-    private DatabaseServer databaseServer 
-	private TableHistory tableHistory 
-	private TableSession tableSession 
-    public DatabaseServer getDatabaseServer()
-    private void setDatabaseServer(DatabaseServer databaseServer)
-    private void setTableHistory(TableHistory tableHistory)
+    - DatabaseServer databaseServer 
+	- TableHistory tableHistory 
+	- TableSession tableSession 
+    + DatabaseServer getDatabaseServer()
+    - void setDatabaseServer(DatabaseServer databaseServer)
+    - void setTableHistory(TableHistory tableHistory)
 }
 interface ViewDelegate{
-    public MainFrame getMainFrame()    
-    public SiteMapPanel getSiteTreePanel()    
-    public OutputPanel getOutputPanel()
+    + MainFrame getMainFrame()    
+    + SiteMapPanel getSiteTreePanel()    
+    + OutputPanel getOutputPanel()
     
 }
 abstract class AbstractControl {
-    protected ExtensionLoader loader 
-    protected Model model 
-    protected View view 
-    public AbstractControl(Model model, View view)
-    public ExtensionLoader getExtensionLoader()
-    protected void loadExtension()
+    # ExtensionLoader loader 
+    # Model model 
+    # View view 
+    + AbstractControl(Model model, View view)
+    + ExtensionLoader getExtensionLoader()
+    # void loadExtension()
 
 }
 class Proxy {
-    private Model model 
-	private ProxyServer proxyServer 
-	private ProxyServerSSL proxyServerSSL
-    public void startServer() 
-    public void stopServer()
-    public void setSerialize(boolean serialize)
+    - Model model 
+	- ProxyServer proxyServer 
+	- ProxyServerSSL proxyServerSSL
+    + void startServer() 
+    + void stopServer()
+    + void setSerialize(boolean serialize)
 }
 abstract class AbstractParam {
-    private FileConfiguration config
-    public void load(String fileName)
-    public void load() 
-    public FileConfiguration getConfig()
+    - FileConfiguration config
+    + void load(String fileName)
+    + void load() 
+    + FileConfiguration getConfig()
 
 }
 class ProxyParam {
-    private static final String USE_REVERSE_PROXY 
-	private static final String REVERSE_PROXY_IP 
-	private static final String REVERSE_PROXY_HTTP_PORT 
-	public String getProxyIp()
-    public void setProxyIp(String proxyIp)
-    public int getProxyPort()
+    - static final String USE_REVERSE_PROXY 
+	- static final String REVERSE_PROXY_IP 
+	- static final String REVERSE_PROXY_HTTP_PORT 
+	+ String getProxyIp()
+    + void setProxyIp(String proxyIp)
+    + int getProxyPort()
 }
 class ProxyServer{
     
-    protected boolean isProxyRunning 
-	protected ProxyParam proxyParam 
-	protected ConnectionParam connectionParam 
-    public boolean isEnableCacheProcessing()
-    public void setEnableCacheProcessing(boolean enableCacheProcessing)
-    public boolean isSerialize()
+    # boolean isProxyRunning 
+	# ProxyParam proxyParam 
+	# ConnectionParam connectionParam 
+    + boolean isEnableCacheProcessing()
+    + void setEnableCacheProcessing(boolean enableCacheProcessing)
+    + boolean isSerialize()
 }
 class ProxyServerSSL{
-    private static SSLConnector ssl
-    protected ServerSocket createServerSocket(String ip, int port)
-    protected ProxyThread createProxyProcess(Socket clientSocket)
+    - static SSLConnector ssl
+    # ServerSocket createServerSocket(String ip, int port)
+    # ProxyThread createProxyProcess(Socket clientSocket)
 
 }
 class ProxyThread {
-    protected ProxyServer parentServer 
-	protected ProxyParam proxyParam 
-	protected ConnectionParam connectionParam 
-    public void start()
-    private void beginSSL()
-    public void run()
+    # ProxyServer parentServer 
+	# ProxyParam proxyParam 
+	# ConnectionParam connectionParam 
+    + void start()
+    - void beginSSL()
+    + void run()
 }
 class HttpUtil {
-    public static void sleep(int ms)
-    public static void closeServerSocket(ServerSocket socket)
-    public static void closeSocket(Socket socket)
+    + static void sleep(int ms)
+    + static void closeServerSocket(ServerSocket socket)
+    + static void closeSocket(Socket socket)
 }
 class MenuFileControl{
-    private View view = null;
-    private Model model = null;
-    private Control control = null;
-    public MenuFileControl(Model model, View view, Control control)
-    public void exit()
-    public void newSession(boolean isPromptNewSession)
+    - View view = null;
+    - Model model = null;
+    - Control control = null;
+    + MenuFileControl(Model model, View view, Control control)
+    + void exit()
+    + void newSession(boolean isPromptNewSession)
 }
 class MenuToolsControl{
-    private View view 
-	private Model model 
-	private Control control 
-    public MenuToolsControl()
-    public MenuToolsControl(Model model, View view, Control control)
-    public void options()
+    - View view 
+	- Model model 
+	- Control control 
+    + MenuToolsControl()
+    + MenuToolsControl(Model model, View view, Control control)
+    + void options()
 }
 Paros ..> Model : use
 Paros ..> View : use
