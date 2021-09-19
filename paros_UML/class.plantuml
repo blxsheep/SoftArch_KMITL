@@ -1,0 +1,222 @@
+@startuml Paros
+ class Paros {     
+    log :Log
+    cmdLine : Commandline
+    
+	public static void main(String[] args) 
+	private void init(String[] args)
+	private void run()
+	private void runCommandLine()
+	private void runGUI() 
+	private void showLicense()
+    private void checkUpdate()
+    }
+
+class Constant {
+    String PROGRAM_NAME    
+    String PROGRAM_VERSION 
+    long VERSION_TAG
+    public static String getEyeCatcher()
+    public static void setEyeCatcher(String eyeCatcher)
+    public static void setSP(boolean isSP)
+    public static boolean isSP()
+    public Constant()
+    public static Constant getInstance()
+    public static boolean isWindows()
+    public static boolean isLinux()
+}
+
+Paros ..> Constant : use
+abstract class FileXML {
+    protected Document doc 
+	protected DocumentBuilder docBuilder 
+	protected DocumentBuilderFactory docBuilderFactory 
+    public FileXML(String rootElementName)
+    public Document getDocument()
+   
+}
+class Model {
+    private Session session 
+	private OptionsParam optionsParam 
+	private Database db 
+    public void init()
+    public Database getDb()
+    public void moveSessionDb(String destFile)
+
+}
+class View {
+    private MainFrame mainFrame 
+	private HttpPanel requestPanel 
+	private HttpPanel responsePanel 
+    public void postInit()
+    public int showConfirmDialog(String msg)
+    public int showYesNoCancelDialog(String msg)
+
+    }
+class Control {
+    private static Log log 
+    private Proxy proxy 
+    private MenuFileControl menuFileControl 
+    public Proxy getProxy()
+    public MenuFileControl getMenuFileControl()
+    public MenuToolsControl getMenuToolsControl()
+}
+class session {
+    private Model model 
+	private String fileName 
+	private String sessionDesc 
+    public void discard()
+    public String getSessionDesc()
+    public long getSessionId()
+    public Session(Model model)
+}
+class OptionsParam {
+    private ProxyParam proxyParam 
+	private ConnectionParam connectionParam 
+	private OptionsParamView viewParam 
+    public ProxyParam getProxyParam()
+    public void setProxyParam(ProxyParam proxyParam)
+    public OptionsParamView getViewParam()
+}
+class Database {
+    private DatabaseServer databaseServer 
+	private TableHistory tableHistory 
+	private TableSession tableSession 
+    public DatabaseServer getDatabaseServer()
+    private void setDatabaseServer(DatabaseServer databaseServer)
+    private void setTableHistory(TableHistory tableHistory)
+}
+interface ViewDelegate{
+    public MainFrame getMainFrame()    
+    public SiteMapPanel getSiteTreePanel()    
+    public OutputPanel getOutputPanel()
+    
+}
+abstract class AbstractControl {
+    protected ExtensionLoader loader 
+    protected Model model 
+    protected View view 
+    public AbstractControl(Model model, View view)
+    public ExtensionLoader getExtensionLoader()
+    protected void loadExtension()
+
+}
+class Proxy {
+    private Model model 
+	private ProxyServer proxyServer 
+	private ProxyServerSSL proxyServerSSL
+    public void startServer() 
+    public void stopServer()
+    public void setSerialize(boolean serialize)
+}
+abstract class AbstractParam {
+    private FileConfiguration config
+    public void load(String fileName)
+    public void load() 
+    public FileConfiguration getConfig()
+
+}
+class ProxyParam {
+    private static final String USE_REVERSE_PROXY 
+	private static final String REVERSE_PROXY_IP 
+	private static final String REVERSE_PROXY_HTTP_PORT 
+	public String getProxyIp()
+    public void setProxyIp(String proxyIp)
+    public int getProxyPort()
+}
+class ProxyServer{
+    
+    protected boolean isProxyRunning 
+	protected ProxyParam proxyParam 
+	protected ConnectionParam connectionParam 
+    public boolean isEnableCacheProcessing()
+    public void setEnableCacheProcessing(boolean enableCacheProcessing)
+    public boolean isSerialize()
+}
+class ProxyServerSSL{
+    private static SSLConnector ssl
+    protected ServerSocket createServerSocket(String ip, int port)
+    protected ProxyThread createProxyProcess(Socket clientSocket)
+
+}
+class ProxyThread {
+    protected ProxyServer parentServer 
+	protected ProxyParam proxyParam 
+	protected ConnectionParam connectionParam 
+    public void start()
+    private void beginSSL()
+    public void run()
+}
+class HttpUtil {
+    public static void sleep(int ms)
+    public static void closeServerSocket(ServerSocket socket)
+    public static void closeSocket(Socket socket)
+}
+class MenuFileControl{
+    private View view = null;
+    private Model model = null;
+    private Control control = null;
+    public MenuFileControl(Model model, View view, Control control)
+    public void exit()
+    public void newSession(boolean isPromptNewSession)
+}
+class MenuToolsControl{
+    private View view 
+	private Model model 
+	private Control control 
+    public MenuToolsControl()
+    public MenuToolsControl(Model model, View view, Control control)
+    public void options()
+}
+Paros ..> Model : use
+Paros ..> View : use
+Paros ..> Control : use
+Model  *--  session
+Model  o--  OptionsParam
+Model o-- Database 
+View ..|> ViewDelegate :implement
+Control --|> AbstractControl
+Control o-- Proxy
+Control o-- session
+session --|> FileXML
+OptionsParam --|> AbstractParam
+OptionsParam o-- ProxyParam
+AbstractControl o-- Model
+AbstractControl o-- View
+Proxy o-- Model 
+Proxy o-- ProxyServer
+Proxy o-- ProxyServerSSL
+ProxyParam --|> AbstractParam
+ProxyServer o-- ProxyParam
+ProxyServerSSL --|> ProxyServer
+ProxyServerSSL ..> ProxyThread : Use
+ProxyThread o-- ProxyServer
+ProxyThread o-- ProxyParam
+ProxyServer ..> HttpUtil
+Control *-- MenuFileControl
+Control *-- MenuToolsControl
+MenuFileControl o-- View
+MenuFileControl o-- Model
+MenuFileControl ..> session :use
+MenuToolsControl o-- View
+MenuToolsControl o-- Model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
