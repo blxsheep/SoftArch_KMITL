@@ -1,6 +1,6 @@
 package com.solid.lsp;
 
-public class Square  {
+public class Square implements Shape {
     private int side;
 
     Square(int side) {
