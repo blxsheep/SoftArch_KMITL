@@ -21,7 +21,7 @@ public class AlphabetSubscriber extends StringSubscriber{
         }
     }
     public boolean containAlphabet(String text){
-        return text.matches("[a-zA-Z]+");
+        return text.matches(".*[a-zA-Z]+.*");
     }
 
 
