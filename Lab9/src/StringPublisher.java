@@ -1,63 +1,49 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Flow;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.ForkJoinPool;
+
 
 public class StringPublisher implements Flow.Publisher {
 
-    private final ArrayList<Flow.Subscriber> subscribers;
+    private final ArrayList<StringSubscriber> subscribers;
+    private final ExecutorService executor = ForkJoinPool.commonPool(); // daemon-based
+    private boolean subscribed; // true after first subscribe
+
 
     // make list of subscriber
 
     StringPublisher(){
-        this.subscribers = new ArrayList<Flow.Subscriber>();
+        this.subscribers = new ArrayList<StringSubscriber>();
     }
     @Override
     public void subscribe(Flow.Subscriber subscriber) {
-        this.subscribers.add(subscriber);
-    }
-    public void unsubscribe(Flow.Subscriber subscriber){
-        this.subscribers.remove(subscriber);
-    }
-
-    public void publishSubscription(String text){
-
-        for(Flow.Subscriber sub : this.subscribers ) {
-            // use onNext like update.
-            if(sub instanceof AlphabetSubscriber && containAlphabet(text)){
-                sub.onNext(text);
-            }
-            if(sub instanceof NumberSubscriber && containNum(text)){
-                sub.onNext(text);
-            }
-            if(sub instanceof SymbolSubscriber && containSymbol(text)){
-                sub.onNext(text);
-            }
-
+        if (subscribed)
+            subscriber.onError(new IllegalStateException()); // only one allowed
+        else {
+            subscribed = true;
+            subscriber.onSubscribe(new StringSubscription(subscriber, executor));
         }
-
-
-
-
-
-
-        ;
-    }
-    public boolean containNum (String text){
-        String regex = "(.)*(\\d)(.)*";
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(text).matches();
-    }
-    public boolean containSymbol(String text){
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher matcher = pattern.matcher(text);
-        return matcher.find();
-    }
-    public boolean containAlphabet(String text){
-        return text.matches("[a-zA-Z]+");
     }
 
+    public void addSubscriber(StringSubscriber sub){
+        this.subscribers.add(sub);
+    }
+    public void removeSubscriber(StringSubscriber sub){
+        this.subscribers.remove(sub);
+    }
+
+
+    public void publish(String text){
+        for(StringSubscriber sub : this.subscribers ) {
+            sub.update(text);
+            // let each class.update filter text
+        }
+    }
 
 
 }

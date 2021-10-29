@@ -2,6 +2,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Flow;
 import java.util.concurrent.Future;
 
+
 public class StringSubscription implements Flow.Subscription {
     private final Flow.Subscriber<? super Boolean> subscriber;
     private final ExecutorService executor;
@@ -35,4 +36,6 @@ public class StringSubscription implements Flow.Subscription {
         if (future != null) future.cancel(false);
 
     }
+
+
 }
