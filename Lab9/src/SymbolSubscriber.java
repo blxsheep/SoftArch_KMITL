@@ -1,5 +1,6 @@
 
 
+import java.io.File;
 import java.util.concurrent.Flow;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ public class SymbolSubscriber extends StringSubscriber{
     public void update(String text){
         if(containSymbol(text)){
             //append to text
-            StringSubscriber.writeInFile(text,"Symbol");
+            FileManager.writeInFile(text,"Symbol");
         }
     }
     public boolean containSymbol(String text){

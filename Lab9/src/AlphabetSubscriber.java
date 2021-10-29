@@ -17,7 +17,7 @@ public class AlphabetSubscriber extends StringSubscriber{
     public void update(String text){
         if(containAlphabet(text)){
             // append to file
-            StringSubscriber.writeInFile(text,"Alphabet");
+            FileManager.writeInFile(text,"Alphabet");
         }
     }
     public boolean containAlphabet(String text){

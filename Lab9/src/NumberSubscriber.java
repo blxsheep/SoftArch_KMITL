@@ -17,7 +17,7 @@ public class NumberSubscriber extends StringSubscriber{
     public void update(String text){
         if(containNum(text)){
             // append to textfile
-            StringSubscriber.writeInFile(text,"Number");
+            FileManager.writeInFile(text,"Number");
 
 
         }
